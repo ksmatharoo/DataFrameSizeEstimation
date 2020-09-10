@@ -1,4 +1,4 @@
-package withparquet_output_writer;
+package com.ksm.avroparquetwriter;
 
 import com.databricks.spark.avro.SchemaConverters;
 import org.apache.avro.Schema;

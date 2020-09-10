@@ -1,4 +1,4 @@
-package withavro_parquet_writer;
+package com.ksm.parquetoutputwriter;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapred.JobConf;
@@ -64,6 +64,7 @@ public class CustomRDDParquetOutputWriter extends RDD<Row> {
         ParquetWriteSupport.setSchema(schema, jobConf);
         jobConf.set(SQLConf.PARQUET_WRITE_LEGACY_FORMAT().key(), "false");
         jobConf.set(SQLConf.PARQUET_OUTPUT_TIMESTAMP_TYPE().key(), "INT96");
+        jobConf.set("parquet.compression", "snappy");
         //jobConf.set("mapreduce.output.fileoutputformat.outdir",path);
 
         TaskAttemptContextImpl context = new TaskAttemptContextImpl(jobConf, taskAttemptID);
@@ -82,9 +83,9 @@ public class CustomRDDParquetOutputWriter extends RDD<Row> {
                     } else {
                         list.add(next.get(i));
                     }
-                    rowCount++;
                 }
                 parquetOutputWriter.write(new GenericInternalRow(list.toArray()));
+                rowCount++;
             }
             if (rowToWrite >= rowCount) {
                 break;

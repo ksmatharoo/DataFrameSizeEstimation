@@ -1,4 +1,4 @@
-package withparquet_output_writer;
+package com.ksm.avroparquetwriter;
 
 import org.apache.spark.Partition;
 

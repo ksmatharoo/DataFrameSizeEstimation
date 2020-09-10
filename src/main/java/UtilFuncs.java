@@ -1,3 +1,5 @@
+import com.ksm.avroparquetwriter.CustomRddWithAvroParquet;
+import com.ksm.parquetoutputwriter.CustomRDDParquetOutputWriter;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.Partition;
 import org.apache.spark.sql.Dataset;
@@ -6,8 +8,6 @@ import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.StructType;
 import org.apache.spark.util.SerializableConfiguration;
 import scala.reflect.ClassTag;
-import withavro_parquet_writer.CustomRDDParquetOutputWriter;
-import withparquet_output_writer.CustomRddWithAvroParquet;
 
 import java.util.ArrayList;
 
