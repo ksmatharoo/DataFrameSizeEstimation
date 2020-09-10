@@ -1,3 +1,5 @@
+package com.ksm;
+
 import com.ksm.avroparquetwriter.CustomRddWithAvroParquet;
 import com.ksm.parquetoutputwriter.CustomRDDParquetOutputWriter;
 import org.apache.hadoop.conf.Configuration;

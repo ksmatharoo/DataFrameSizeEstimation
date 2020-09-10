@@ -1,6 +1,8 @@
+package com.ksm;
+
 import org.apache.spark.Partitioner;
 
-class CustomPartitioner extends Partitioner {
+public class CustomPartitioner extends Partitioner {
 
     private int numParts;
 

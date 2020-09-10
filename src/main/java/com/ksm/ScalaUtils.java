@@ -1,3 +1,5 @@
+package com.ksm;
+
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
 import scala.reflect.ClassTag;
