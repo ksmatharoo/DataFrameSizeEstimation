@@ -12,10 +12,10 @@ import scala.reflect.ClassTag;
 import java.util.ArrayList;
 
 public class UtilFuncs {
-    public static String WriteDatasetForEstimation(SparkSession sparkSession, Dataset<Row> ds,
-                                                   String basePath, int percentageRowUsed, long totalRowCnt) {
+    public static void WriteDatasetForEstimation(SparkSession sparkSession, Dataset<Row> ds,
+                                                 String basePath, int percentageRowUsed,
+                                                 long totalRowCnt) {
         final StructType schema = ds.schema();
-        //ClassTag<Row> tag1 = ClassManifestFactory$.MODULE$.fromClass(Row.class);
         ClassTag<Row> tag = ScalaUtils.getClassTag(Row.class);
 
         final ArrayList partitionList = new ArrayList(ds.javaRDD().partitions());
@@ -46,22 +46,28 @@ public class UtilFuncs {
         System.out.println("rowsToWrite " + rowsToWrite);
         System.out.println("Total rows used :" + rowCnt);
         System.out.println("Total size used :" + size);
-        return "";
     }
 
-    public static String WriteParquetOutputWriter(SparkSession sparkSession, Dataset<Row> ds,
-                                                  String basePath, int percentageRowUsed, long totalRowCnt) {
+    public static void WriteParquetOutputWriter(SparkSession sparkSession, Dataset<Row> ds,
+                                                String basePath, double percentageRowUsed,
+                                                long totalRowCnt) {
 
         Configuration entries = sparkSession.sparkContext().hadoopConfiguration();
         ClassTag<Row> classTag = ScalaUtils.getClassTag(Row.class);
+
+        int rowsToWrite = (int) ((double) totalRowCnt * (percentageRowUsed / 100.0));
         CustomRDDParquetOutputWriter customRDD = new CustomRDDParquetOutputWriter(ds.rdd(), classTag,
                 new SerializableConfiguration(entries), ds.javaRDD().partitions().toArray(new Partition[0]),
-                ds.schema(), (int) totalRowCnt);
-        customRDD.collect();
+                ds.schema(), (int) rowsToWrite);
+        Object collect = customRDD.collect();
+        Row[] rows = (Row[]) collect;
 
-        return "";
-
+        System.out.println("Total Rows                        :" + totalRowCnt);
+        System.out.println("Percentage Row Used for estimation:" + percentageRowUsed);
+        for (Row row : rows) {
+            System.out.println("Row Count : " + row.getLong(0));
+            System.out.println("Size      : " + row.getLong(1));
+            System.out.println("Path      : " + row.getString(2));
+        }
     }
-
-
 }

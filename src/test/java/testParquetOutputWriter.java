@@ -13,17 +13,13 @@ public class testParquetOutputWriter {
                 .option("header", "true")
                 .csv("src/test/resources/Record_5000_withID.csv");
 
-        Dataset<Row> ds = csv;
+        Dataset<Row> ds = csv.repartition(10);
         long count = ds.count();
 
         // write given partition on disk to estimate the dataset size
         String basePath = "src/test/resources/output/temp";
-        final String tempPath = UtilFuncs.WriteParquetOutputWriter(sparkSession, ds, basePath,
-                40, count);
-       /*
-        ds.repartition(calculatedPartition).write()
-                .option("compression", "snappy")
-                .parquet("src/test/resources/output/fullds");*/
+        UtilFuncs.WriteParquetOutputWriter(sparkSession, ds, basePath,
+                45.0, count);
 
     }
 

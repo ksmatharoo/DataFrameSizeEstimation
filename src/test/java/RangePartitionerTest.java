@@ -20,11 +20,7 @@ public class RangePartitionerTest {
                 return new Tuple2<String, String>(arg0.split(",")[0], arg0.split(",")[1]);
             }
         });
-
         pairRDD = pairRDD.partitionBy(new CustomPartitioner(4));
         pairRDD.saveAsTextFile("src/test/resources/Output/test");
-
     }
-
-
 }

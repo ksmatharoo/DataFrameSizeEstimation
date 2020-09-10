@@ -22,7 +22,7 @@ public class testAvroParquetWriter {
 
         // write given partition on disk to estimate the dataset size
         String basePath = "src/test/resources/output/temp";
-        final String tempPath = UtilFuncs.WriteDatasetForEstimation(sparkSession, ds, basePath,
+        UtilFuncs.WriteDatasetForEstimation(sparkSession, ds, basePath,
                 40, count);
 
         System.out.println("end");

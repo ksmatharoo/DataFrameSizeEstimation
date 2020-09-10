@@ -70,7 +70,7 @@ public class CustomRDDParquetOutputWriter extends RDD<Row> {
         TaskAttemptContextImpl context = new TaskAttemptContextImpl(jobConf, taskAttemptID);
         ParquetOutputWriter parquetOutputWriter = new ParquetOutputWriter(path, context);
 
-        int rowCount = 0;
+        long rowCount = 0;
         for (Partition partition1 : partitions) {
             final Iterator<Row> iterator = firstParent(tag).iterator(partition1, taskContext);
 
@@ -87,7 +87,7 @@ public class CustomRDDParquetOutputWriter extends RDD<Row> {
                 parquetOutputWriter.write(new GenericInternalRow(list.toArray()));
                 rowCount++;
             }
-            if (rowToWrite >= rowCount) {
+            if (rowCount >= rowToWrite) {
                 break;
             }
         }
@@ -95,7 +95,7 @@ public class CustomRDDParquetOutputWriter extends RDD<Row> {
         long size = getSize(path);
 
         List<Row> list = new ArrayList<>();
-        Row row = RowFactory.create(rowCount, size);
+        Row row = RowFactory.create(rowCount, size, path);
         list.add(row);
         return JavaConversions.asScalaIterator(list.iterator());
     }
