@@ -10,7 +10,7 @@
 
     <properties>
         <scala.compat.version>2.11</scala.compat.version>
-        <spark.version>2.3.0</spark.version>
+        <spark.version>2.4.7</spark.version>
 
     </properties>
 
